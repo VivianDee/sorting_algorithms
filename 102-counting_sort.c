@@ -8,18 +8,15 @@
 */
 void counting_sort(int *array, size_t size)
 {
-	int min = 0, max = 0, buffer[1024], check = 0, count = 0, k = 0;
+	int max = 0, buffer[1024], output[1024], check = 0, count = 0, k = 0;
 	size_t i = 0, j = 0;
 
 	if (!array || size == 0)
 		return;
-	min = array[0];
 	while (i < size)
 	{
 		if (max < array[i])
 			max = array[i];
-		if (min > array[i])
-			min = array[i];
 		i++;
 	}
 	for (k = 0; k <= max; k++)
@@ -41,9 +38,8 @@ void counting_sort(int *array, size_t size)
 	for (i = 0; i < size; i++)
 	{
 		check = array[i];
-		buffer[(buffer[check] - 1)] = check;
+		output[(buffer[check] - 1)] = check;
 		buffer[check]--; }
-	array[0] = min;
-	for (i = 1; i < size; i++)
-		array[i] = buffer[i];
+	for (i = 0; i < size; i++)
+		array[i] = output[i];
 }

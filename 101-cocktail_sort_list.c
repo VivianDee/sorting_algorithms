@@ -44,45 +44,41 @@ void sort_forward(listint_t **list)
 void sort_backwards(listint_t **list)
 {
 	listint_t *prev, *next, *node = *list, *temp;
-	int check = 0;
 
 	while (node->next)
 		node = node->next;
-	while (node)
+
+	while (node->prev)
 	{
-		if (node->prev && node->n < node->prev->n)
+		if (node->n < node->prev->n)
 		{
 			prev = node->prev;
-			if (node->prev->prev)
-				temp = node->prev->prev;
-			else
-			{
-				*list = node;
-				node->prev = NULL;
-				check = 1; }
+			temp = node->prev->prev;
 			next = node->next;
-			node->prev = temp;
+
 			if (temp)
 				temp->next = node;
 			else
 				*list = node;
-			node->next = prev;
-			if (prev->prev)
-				prev->prev = next;
+
+			node->prev = temp;
+
+			if (next)
+				next->prev = prev;
 			else
-			{
 				prev->prev = node;
-				node->prev = NULL; }
+
+			node->next = prev;
+			prev->prev = node;
 			prev->next = next;
-			next->prev = prev;
+
 			print_list(*list);
-			if (check)
-			break;
 		}
 		else
 			node = node->prev;
 	}
 }
+
 
 /**
 *  check_list - Checks if a doubly linked list is sorted
